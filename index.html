@@ -1,39 +1,92 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>5억년 버튼 코인</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>5억년 버튼</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .counter {
+      font-size: 2rem;
+      margin: 1rem;
+    }
+    button {
+      background-color: lime;
+      color: black;
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
+      border: none;
+      cursor: pointer;
+      font-family: 'Press Start 2P', monospace;
+      transition: transform 0.1s ease;
+    }
+    button:hover {
+      background-color: white;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: gray;
+    }
+    .flash {
+      animation: flash 0.2s;
+    }
+    @keyframes flash {
+      0% { background-color: lime; }
+      50% { background-color: yellow; }
+      100% { background-color: lime; }
+    }
+  </style>
 </head>
-<body class="bg-gray-950 text-white font-sans flex flex-col items-center justify-center min-h-screen p-4">
-  <h1 class="text-4xl md:text-6xl font-bold mb-6 text-center">🕹️ 5억년 버튼 코인</h1>
-
-  <img src="assets/meme.png" alt="5억년 버튼" class="w-64 h-auto mb-6 rounded-2xl shadow-lg" />
-
-  <button id="button" class="bg-emerald-500 hover:bg-emerald-600 text-black font-bold py-4 px-8 rounded-full text-2xl transition">
-    눌러서 5억년 가즈아 💸
-  </button>
-
-  <p id="counter" class="text-2xl mt-6">지금까지 누른 횟수: <span id="count">0</span>회</p>
-
-  <section class="mt-12 max-w-xl text-center space-y-4">
-    <h2 class="text-2xl font-semibold">🪙 이게 뭔 코인이냐?</h2>
-    <p>전설의 '5억년 버튼' 밈에서 영감을 받은 탈중앙화된 커뮤니티 밈코인입니다. 누르면 누를수록 가치가... 올라갈지도?</p>
-    <p><strong>토큰명:</strong> 5YB (5-Year Button)</p>
-    <p><strong>컨트랙트 주소:</strong> <code>0x...YourTokenAddressHere</code></p>
-  </section>
-
-  <div class="flex space-x-6 mt-10">
-    <a href="https://twitter.com/yourproject" class="text-blue-400 hover:underline">X</a>
-    <a href="https://t.me/yourproject" class="text-blue-400 hover:underline">Telegram</a>
-    <a href="https://github.com/yourusername/5eok-button-memecoin" class="text-blue-400 hover:underline">GitHub</a>
-  </div>
-
-  <footer class="mt-12 text-sm text-gray-500">
-    © 2025 5억년버튼코인. All Rights Reserved.
+<body>
+  <h1>5억년 버튼</h1>
+  <div class="counter">Press Count: <span id="count">0</span></div>
+  <button id="pressBtn">버튼 눌러!</button>
+  <footer>
+    Made for memes. Button counts are saved in your browser.
   </footer>
 
-  <script src="script.js"></script>
+  <audio id="clickSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+
+  <script>
+    let count = parseInt(localStorage.getItem('count')) || 0;
+    const countDisplay = document.getElementById("count");
+    const pressBtn = document.getElementById("pressBtn");
+    const clickSound = document.getElementById("clickSound");
+
+    countDisplay.textContent = count.toLocaleString();
+
+    pressBtn.addEventListener("click", () => {
+      count++;
+      countDisplay.textContent = count.toLocaleString();
+      localStorage.setItem('count', count);
+
+      // Play sound
+      clickSound.currentTime = 0;
+      clickSound.play();
+
+      // Flash animation
+      pressBtn.classList.add("flash");
+      setTimeout(() => {
+        pressBtn.classList.remove("flash");
+      }, 200);
+    });
+  </script>
 </body>
 </html>
